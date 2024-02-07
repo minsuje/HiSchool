@@ -1,133 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- 아이콘 CDN feather -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.1/feather.min.js"
-    integrity="sha512-4lykFR6C2W55I60sYddEGjieC2fU79R7GUtaqr3DzmNbo0vSaO1MfUjMoTFYYuedjfEix6uV9jVTtRCSBU/Xiw=="
-    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.29.1/feather.min.js"
+      integrity="sha512-4lykFR6C2W55I60sYddEGjieC2fU79R7GUtaqr3DzmNbo0vSaO1MfUjMoTFYYuedjfEix6uV9jVTtRCSBU/Xiw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
     <!-- axios CDN -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <link rel="stylesheet" href="/style.css" />
     <title>채팅목록</title>
     <style>
-        #btn-out{
-            padding: 0.2rem;
-            color: var(--color-gray-400);
-        }
-        #btn-out:hover{
-            padding: 0.2rem;
-            cursor: pointer;
-            
-        }
-        .Chatlist{
-            display: flex;
-            width: 100%;
-            padding: 24px 15px;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 8px;
-            border-radius: 20px;
-            border-bottom: 1px solid var(--color-gray-200);
-            /* box-shadow: 0px 2px 8px 0px var(--color-gray-200); */
-            cursor: pointer;
-        }
-        .Chatlist:hover{
-            box-shadow: 0px 2px 8px 0px var(--color-gray-200);
-            /* margin-bottom: 0.1rem; */
-        }
-        .Chatlist:active{
-            box-shadow: 0px 2px 8px 0px var(--color-gray-200);
-            /* margin-bottom: 0.1rem; */
-        }
-        .flex{
-            display: flex;
-            width: 100%;
-            justify-content: space-between;
-        }
+      #btn-out {
+        padding: 0.2rem;
+        color: var(--color-gray-400);
+      }
+      #btn-out:hover {
+        padding: 0.2rem;
+        cursor: pointer;
+      }
+      .Chatlist {
+        display: flex;
+        width: 100%;
+        padding: 24px 15px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        border-radius: 20px;
+        border-bottom: 1px solid var(--color-gray-200);
+        /* box-shadow: 0px 2px 8px 0px var(--color-gray-200); */
+        cursor: pointer;
+      }
+      .Chatlist:hover {
+        box-shadow: 0px 2px 8px 0px var(--color-gray-200);
+        /* margin-bottom: 0.1rem; */
+      }
+      .Chatlist:active {
+        box-shadow: 0px 2px 8px 0px var(--color-gray-200);
+        /* margin-bottom: 0.1rem; */
+      }
+      .flex {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+      }
     </style>
-</head>
-<body>
-  
+  </head>
+  <body>
     <%- include('component/header')%>
     <main class="container">
-    <h2>DM </h2>
-    <% if (findMyChat.length==0) { %>
-        <div class="emptyFull"><span>진행중인 채팅이 없습니다.</span></div>
-    <% }else{ %>
-    <% for( let i = 0; i < findMyChat.length; i++ ) { %>
-        
-        <div class="Chatlist" >
-            <div class="flex">
-                <div class="flex-item">
-                    <% let roomName = findMyChat[i].room_name %>
-            <% myname.nickname %>
-            <% let room_name1 = roomName.replace(myname.nickname,"")%>
-            <% let room_name2 = room_name1.replace(",","")%>
-            <div class="list-title" onclick="showChat('<%=findMyChat[i].room_name%>')"><%=room_name2%></div>
-            <div class="list-content" onclick="showChat('<%=findMyChat[i].room_name%>')">채팅방 바로 가기 </div>
-                </div>
-                
+      <h2>동아리 채팅</h2>
+      <% if (getMyClub.length==0) { %>
+      <div class="emptyFull"><span>진행중인 채팅이 없습니다.</span></div>
+      <% }else{ %> <% for( let i = 0; i < getMyClub.length; i++ ) { %>
+      <div class="Chatlist" onclick="showClubChat('<%=getMyClub[i].club_id%>')">
+        <div class="list-title"><%=getMyClub[i].club_name%></div>
+        <div class="list-content">채팅방 바로 가기</div>
+      </div>
 
-            
-            <div class="flex-item">
-                <button class="" id="btn-out" onclick="outRoom('<%=findMyChat[i].room_name%>')"><i data-feather="x" ></i></button>
-        </div>
-            
-            </div>
-            
-        </div>
-    
-    <% } %>
-    <% } %>
-
-
-    <h2>동아리 채팅</h2>
-    <% if (getMyClub.length==0) { %>
-        <div class="emptyFull"><span>진행중인 채팅이 없습니다.</span></div>
-    <% }else{ %>
-    
-    <% for( let i = 0; i < getMyClub.length; i++ ) { %>
-        <div class="Chatlist" onclick="showClubChat('<%=getMyClub[i].club_id%>')">
-            
-            <div class="list-title"><%=getMyClub[i].club_name%></div>
-            <div class="list-content">채팅방 바로 가기</div>
-        </div>
-    
-    <% } %>
-    <% } %>
-</main>
+      <% } %> <% } %>
+    </main>
     <script>
-        function showChat(room_name){
-            window.location.href=`/chat/${room_name}` 
-
-        }
-        function showClubChat(club_id){
-            window.location.href=`/myclubChat/${club_id}` 
-
-        }
-        async function outRoom(room_name){
-            try{
-            const res= await axios({
+      function showChat(room_name) {
+        window.location.href = `/chat/${room_name}`;
+      }
+      function showClubChat(club_id) {
+        window.location.href = `/myclubChat/${club_id}`;
+      }
+      async function outRoom(room_name) {
+        try {
+          const res = await axios({
             method: "DELETE",
             url: `/chatList/${room_name}`,
+          });
 
-
-         });
-         
-            alert(`채팅방을 나갔습니다`);
-            location.reload();
-            
-            
-            }catch(error){
-               console.log("chatList 에서 채팅방 나가기 오류 > ", error);
-            };
+          alert(`채팅방을 나갔습니다`);
+          location.reload();
+        } catch (error) {
+          console.log("chatList 에서 채팅방 나가기 오류 > ", error);
         }
-
+      }
     </script>
-    <script>feather.replace()</script>
-</body>
-
+    <script>
+      feather.replace();
+    </script>
+  </body>
 </html>

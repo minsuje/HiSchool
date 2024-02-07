@@ -37,70 +37,69 @@
     }
 
 
-    
+
 
     #image_preview input[type="file"] {
-    position: absolute;
-    width: 0;
-    height: 0;
-    padding: 0;
-    overflow: hidden;
-    border: 0;
-}
+      position: absolute;
+      width: 0;
+      height: 0;
+      padding: 0;
+      overflow: hidden;
+      border: 0;
+    }
 
 
-.btn-upload {
-  width: 150px;
-  height: 30px;
-  background-color: var(--color-primary-500);
-  color: white;
-  border-radius: 4px;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  &:hover {
-    background: var(--color-primary-600);
-    color: #fff;
-  }
-}
+    .btn-upload {
+      width: 150px;
+      height: 30px;
+      background-color: var(--color-primary-500);
+      color: white;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-.btn-upload:hover {
-  background-color: var(--color-primary-600);
-}
+      &:hover {
+        background: var(--color-primary-600);
+        color: #fff;
+      }
+    }
 
-#file {
-  display: none;
-}
+    .btn-upload:hover {
+      background-color: var(--color-primary-600);
+    }
 
-
-#btnAtt {
-  display: none;
-}
+    #file {
+      display: none;
+    }
 
 
+    #btnAtt {
+      display: none;
+    }
 
 
-    #att_zone{
-	width: 100%;
-  display: flex;
-  gap: 4px;
-}
-
-#att_zone:empty:before{
-	content : attr(data-placeholder);
-	color : #999;
-	font-size:.9em;
-}
-
-#image_preview {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
 
 
+    #att_zone {
+      width: 100%;
+      display: flex;
+      gap: 4px;
+    }
+
+    #att_zone:empty:before {
+      content: attr(data-placeholder);
+      color: #999;
+      font-size: .9em;
+    }
+
+    #image_preview {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
   </style>
 </head>
 
@@ -136,10 +135,10 @@
           <label for="btnAtt">
             <div class="btn-upload">이미지 업로드</div>
           </label>
-          <input type='file' id='btnAtt' multiple accept="image/*" onchange="uploadToClient(); "/>
+          <input type='file' id='btnAtt' multiple accept="image/*" onchange="uploadToClient(); " />
           <div id='att_zone'></div>
 
-        <button type="button" onclick="onUpload()">파일 확인</button>
+          <button type="button" onclick="onUpload()">파일 확인</button>
 
           <div>
             <button type="button" class="btn btn-primary " onclick="addpost()">
@@ -179,52 +178,52 @@
 
 
 
-      
-var attZone = document.getElementById('att_zone');
-var btnAtt = document.getElementById('btnAtt')
-var sel_files = [];
 
-// 이미지와 체크 박스를 감싸고 있는 div 속성
-var div_style = 'display:flex; position:relative; gap: 4px;'
-              + 'width: calc( (100% - 40px) / 5); aspect-ratio: 1/1; gap: 4px; object-fit: cover; z-index:1';
-// 미리보기 이미지 속성
-var img_style = 'width:100%;z-index:none; object-fit: cover;';
-// 이미지안에 표시되는 체크박스의 속성
-var chk_style = 'width:30px;height:30px;position:absolute;font-size:24px;'
-              + 'right:0px;bottom:0px;z-index:999;background-color:rgba(255,255,255,0.1);color:#f00';
+      var attZone = document.getElementById('att_zone');
+      var btnAtt = document.getElementById('btnAtt');
+      var sel_files = [];
 
-
+      // 이미지와 체크 박스를 감싸고 있는 div 속성
+      var div_style = 'display:flex; position:relative; gap: 4px;'
+        + 'width: calc( (100% - 40px) / 5); aspect-ratio: 1/1; gap: 4px; object-fit: cover; z-index:1';
+      // 미리보기 이미지 속성
+      var img_style = 'width:100%;z-index:none; object-fit: cover;';
+      // 이미지안에 표시되는 체크박스의 속성
+      var chk_style = 'width:30px;height:30px;position:absolute;font-size:24px;'
+        + 'right:0px;bottom:0px;z-index:999;background-color:rgba(255,255,255,0.1);color:#f00';
 
 
 
-      
-  
-/*첨부된 이미리즐을 배열에 넣고 미리보기 */
-imageLoader = function(file){
-  sel_files.push(file);
-  var reader = new FileReader();
-  reader.onload = function(ee){
-    let img = document.createElement('img')
-    img.setAttribute('style', img_style)
-    img.src = ee.target.result;
-    attZone.appendChild(makeDiv(img, file));
-  }
-  
-  reader.readAsDataURL(file);
-}
+
+
+
+
+      /*첨부된 이미리즐을 배열에 넣고 미리보기 */
+      imageLoader = function (file) {
+        sel_files.push(file);
+        var reader = new FileReader();
+        reader.onload = function (ee) {
+          let img = document.createElement('img');
+          img.setAttribute('style', img_style);
+          img.src = ee.target.result;
+          attZone.appendChild(makeDiv(img, file));
+        };
+
+        reader.readAsDataURL(file);
+      };
 
 
       function uploadToClient() {
 
 
 
-        
+
 
         var files = uploadFiles.files;
-  var fileArr = Array.prototype.slice.call(files)
-  for(f of fileArr){
-    imageLoader(f);
-  }
+        var fileArr = Array.prototype.slice.call(files);
+        for (f of fileArr) {
+          imageLoader(f);
+        }
 
 
 
@@ -428,67 +427,67 @@ imageLoader = function(file){
 
 
 
-      imageView = function imageView(att_zone, btn){
+      imageView = function imageView(att_zone, btn) {
 
 
-// // 탐색기에서 드래그앤 드롭 사용
-// attZone.addEventListener('dragenter', function(e){
-//   e.preventDefault();
-//   e.stopPropagation();
-// }, false)
+        // // 탐색기에서 드래그앤 드롭 사용
+        // attZone.addEventListener('dragenter', function(e){
+        //   e.preventDefault();
+        //   e.stopPropagation();
+        // }, false)
 
-// attZone.addEventListener('dragover', function(e){
-//   e.preventDefault();
-//   e.stopPropagation();
-  
-// }, false)
+        // attZone.addEventListener('dragover', function(e){
+        //   e.preventDefault();
+        //   e.stopPropagation();
 
-// attZone.addEventListener('drop', function(e){
-//   var files = {};
-//   e.preventDefault();
-//   e.stopPropagation();
-//   var dt = e.dataTransfer;
-//   files = dt.files;
-//   for(f of files){
-//     imageLoader(f);
-//   }
-  
-// }, false)
+        // }, false)
+
+        // attZone.addEventListener('drop', function(e){
+        //   var files = {};
+        //   e.preventDefault();
+        //   e.stopPropagation();
+        //   var dt = e.dataTransfer;
+        //   files = dt.files;
+        //   for(f of files){
+        //     imageLoader(f);
+        //   }
+
+        // }, false)
 
 
-/*첨부된 파일이 있는 경우 checkbox와 함께 attZone에 추가할 div를 만들어 반환 */
-makeDiv = function(img, file){
-  var div = document.createElement('div')
-  div.setAttribute('style', div_style)
-  
-  var btn = document.createElement('input')
-  btn.setAttribute('type', 'button')
-  btn.setAttribute('value', 'x')
-  btn.setAttribute('delFile', file.name);
-  btn.setAttribute('style', chk_style);
-  btn.onclick = function(ev){
-    var ele = ev.srcElement;
-    var delFile = ele.getAttribute('delFile');
-    for(var i=0 ;i<sel_files.length; i++){
-      if(delFile== sel_files[i].name){
-        sel_files.splice(i, 1);      
-      }
-    }
-    
-    dt = new DataTransfer();
-    for(f in sel_files) {
-      var file = sel_files[f];
-      dt.items.add(file);
-    }
-    btnAtt.files = dt.files;
-    var p = ele.parentNode;
-    attZone.removeChild(p)
-  }
-  div.appendChild(img)
-  div.appendChild(btn)
-  return div
-}
-}('att_zone', 'btnAtt')
+        /*첨부된 파일이 있는 경우 checkbox와 함께 attZone에 추가할 div를 만들어 반환 */
+        makeDiv = function (img, file) {
+          var div = document.createElement('div');
+          div.setAttribute('style', div_style);
+
+          var btn = document.createElement('input');
+          btn.setAttribute('type', 'button');
+          btn.setAttribute('value', 'x');
+          btn.setAttribute('delFile', file.name);
+          btn.setAttribute('style', chk_style);
+          btn.onclick = function (ev) {
+            var ele = ev.srcElement;
+            var delFile = ele.getAttribute('delFile');
+            for (var i = 0; i < sel_files.length; i++) {
+              if (delFile == sel_files[i].name) {
+                sel_files.splice(i, 1);
+              }
+            }
+
+            dt = new DataTransfer();
+            for (f in sel_files) {
+              var file = sel_files[f];
+              dt.items.add(file);
+            }
+            btnAtt.files = dt.files;
+            var p = ele.parentNode;
+            attZone.removeChild(p);
+          };
+          div.appendChild(img);
+          div.appendChild(btn);
+          return div;
+        };
+      }('att_zone', 'btnAtt')
 
     </script>
 </body>

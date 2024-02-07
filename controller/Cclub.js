@@ -22,10 +22,22 @@ const {
 // Club
 // GET /clubMain : 전체 동아리 조회
 exports.getClubs = async (req, res) => {
+  const { userid, userid_num } = jwt.verify(
+    req.cookies.jwt,
+    process.env.JWT_SECRET
+  );
+  
   try {
     let link = "/home"; //홈으로 이동
     const Clubs = await Club.findAll();
-    res.render("club/clubMain", { data: Clubs, title: "전체 동아리", link });
+
+    const findClubs = await Club_members.findAll({
+      attributes:["club_id"],
+      where:{
+        userid_num: userid_num,
+      }
+    })
+    res.render("club/clubMain", { data: Clubs, title: "전체 동아리", link,findClubs });
   } catch (err) {
     console.error(err);
     res.send("Internal Server Error!");

@@ -196,7 +196,7 @@
     .photo-container {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap:12px;
+      gap: 12px;
     }
 
     .photo-box img {
@@ -223,211 +223,211 @@
       flex-direction: column;
       gap: 32px;
     }
-
-
-
   </style>
 </head>
 
 <body>
 
+  <%- include('./component/upbtn') %>
+    <%- include('./component/header-main') %>
+      <!-- <img class="background-image" src="/blue-bg.png" alt=""> -->
+      <div class="hero"></div>
+      <!-- <img class="background-image" src="https://images.unsplash.com/photo-1597200381847-30ec200eeb9a?q=80&w=4032&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""> -->
+      <main class="container">
+        <div class="main-container"></div>
 
-  <%- include('./component/header-main') %>
-  <!-- <img class="background-image" src="/blue-bg.png" alt=""> -->
-  <div class="hero"></div>
-  <!-- <img class="background-image" src="https://images.unsplash.com/photo-1597200381847-30ec200eeb9a?q=80&w=4032&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt=""> -->
-  <main class="container">
-    <div class="main-container"></div>
-
-    <div class="section">
-      <h2 style="color: var(--color-gray-600)">내 동아리</h2>
-      <div class="club-container">
-        <% if(typeof getMyClubs !==undefined && getMyClubs) { %>
-        <% if(getMyClubs.length==0) { %>
-        <span>가입한 동아리가 없어요</span>
-        <% } else { %>
-        <% for(i=0; i < getMyClubs.length; i++) { %>
-        <a class="club-list" href="/myclubMain/<%= getMyClubs[i].club_id %>">
-          <img src="<%= getMyClubs[i].club_img %>" alt="Description of the image">
-          <div class="club-box">
-            <p class="list-content description location">
-              <img width="16" height="16" src="https://img.icons8.com/ios-filled/50/228BE6/marker.png" alt="marker" />
-              <%= getMyClubs[i].location %>
-            </p>
-            <h3 class="list-title container-title">
-              <%= getMyClubs[i].club_name %>
-            </h3>
-            <p class="list-content description content">
-              <%= getMyClubs[i].description %>
-            </p>
+        <div class="section">
+          <h2 style="color: var(--color-gray-600)">내 동아리</h2>
+          <div class="club-container">
+            <% if(typeof getMyClubs !==undefined && getMyClubs) { %>
+              <% if(getMyClubs.length==0) { %>
+                <span>가입한 동아리가 없어요</span>
+                <% } else { %>
+                  <% for(i=0; i < getMyClubs.length; i++) { %>
+                    <a class="club-list" href="/myclubMain/<%= getMyClubs[i].club_id %>">
+                      <img src="<%= getMyClubs[i].club_img %>" alt="Description of the image">
+                      <div class="club-box">
+                        <p class="list-content description location">
+                          <img width="16" height="16" src="https://img.icons8.com/ios-filled/50/228BE6/marker.png"
+                            alt="marker" />
+                          <%= getMyClubs[i].location %>
+                        </p>
+                        <h3 class="list-title container-title">
+                          <%= getMyClubs[i].club_name %>
+                        </h3>
+                        <p class="list-content description content">
+                          <%= getMyClubs[i].description %>
+                        </p>
+                      </div>
+                    </a>
+                    <% } %>
+                      <% } %>
           </div>
-        </a>
-        <% } %>
-        <% } %>
-      </div>
-      <% } else { %>
-      <span>불러오기 실패</span>
-      <% } %>
-    </div>
+          <% } else { %>
+            <span>불러오기 실패</span>
+            <% } %>
+        </div>
 
 
-    <!-- 광고 -->
-    <!-- <div class="slider">
+        <!-- 광고 -->
+        <!-- <div class="slider">
           <img src="https://i.pinimg.com/564x/5b/d5/6c/5bd56cc467c092e742775df9f47aaa7a.jpg" alt="" class="slide">
           <img src="https://i.pinimg.com/564x/61/54/f1/6154f1739549c5c1d00da1374f63a802.jpg" alt="" class="slide">
           <img src="https://www.cuk.edu/type/common/img/kor/info/schoolAdCollect_01_img12.png" alt="" class="slide">
         </div> -->
 
 
-    <div class="section">
-      <h2 class="label">내 동아리 인기글</h2>
-      <div class="list-container">
-        <% if(typeof clubPosts !==undefined && clubPosts) { %>
-        <% if(clubPosts.length==0) { %>
-        <span>가입한 동아리가 없어요</span>
-        <% } else { %>
-        <% for(i=0; i < clubPosts.length; i++) { %>
-        <a class="clubPost-list" href="/myclubPostDetail/<%= clubPosts[i].club_id %>/<%= clubPosts[i].post_id %>">
-          <div class="club-box">
-            <h3 class="list-title container-title">
-              <%= clubPosts[i].title %>
-            </h3>
-            <p class="list-content description text-container">
-              <%= clubPosts[i].content %>
-            </p>
+        <div class="section">
+          <h2 class="label">내 동아리 인기글</h2>
+          <div class="list-container">
+            <% if(typeof clubPosts !==undefined && clubPosts) { %>
+              <% if(clubPosts.length==0) { %>
+                <span>가입한 동아리가 없어요</span>
+                <% } else { %>
+                  <% for(i=0; i < clubPosts.length; i++) { %>
+                    <a class="clubPost-list"
+                      href="/myclubPostDetail/<%= clubPosts[i].club_id %>/<%= clubPosts[i].post_id %>">
+                      <div class="club-box">
+                        <h3 class="list-title container-title">
+                          <%= clubPosts[i].title %>
+                        </h3>
+                        <p class="list-content description text-container">
+                          <%= clubPosts[i].content %>
+                        </p>
+                      </div>
+                    </a>
+                    <% } %>
+                      <% } %>
+                        <% } else { %>
+                          <span>불러오기 실패</span>
+                          <% } %>
           </div>
-        </a>
-        <% } %>
-        <% } %>
-        <% } else { %>
-        <span>불러오기 실패</span>
-        <% } %>
-      </div>
-    </div>
+        </div>
 
 
 
 
 
-    <div class="section">
-      <h2 class="label">자유게시판 갤러리</h2>
-      <div class="photo-container">
-          <% if(typeof publicPostImg !==undefined && publicPostImg) { %>
-          <% if(publicPostImg.length==0) { %>
-          <span>자유게시판에 업데이트된 사진이 없습니다.</span>
-          <% } else { %>
-          <% for(i=0; i < publicPostImg.length; i++) { %>
-          <a class="photo-list" href="/publicPostDetail/<%= publicPostImg[i].post_id %>">
-            <div class="photo-box">
-              <img src="<%= publicPostImg[i].image %>" alt="Description of the image">
-            </div>
-        </a>
-        <% } %>
-        <% } %>
-        <% } else { %>
-        <span>불러오기 실패</span>
-        <% } %>
-      </div>
-    </div>
-
-
-
-
-    <div class="section">
-      <h2 class="label">
-        <%= name.name %>님을 위한<br>오늘의 추천 동아리
-      </h2>
-      <div class="club-container">
-        <% if(typeof recommendClub !==undefined && recommendClub) { %>
-        <% if(recommendClub.length==0) { %>
-        <span>가입한 동아리가 없어요</span>
-        <% } else { %>
-        <% for(i=0; i < recommendClub.length; i++) { %>
-        <a class="club-list2" href="/myclubMain/<%= recommendClub[i].club_id %>">
-          <img src="<%= recommendClub[i].club_img %>" alt="Description of the image">
-          <div class="club-box">
-            <p class="list-content description location">
-              <%= recommendClub[i].location %>
-            </p>
-            <h3 class="list-title container-title">
-              <%= recommendClub[i].club_name %>
-            </h3>
-            <p class="list-content description content">
-              <%= recommendClub[i].description %>
-            </p>
+        <div class="section">
+          <h2 class="label">자유게시판 갤러리</h2>
+          <div class="photo-container">
+            <% if(typeof publicPostImg !==undefined && publicPostImg) { %>
+              <% if(publicPostImg.length==0) { %>
+                <span>자유게시판에 업데이트된 사진이 없습니다.</span>
+                <% } else { %>
+                  <% for(i=0; i < publicPostImg.length; i++) { %>
+                    <a class="photo-list" href="/publicPostDetail/<%= publicPostImg[i].post_id %>">
+                      <div class="photo-box">
+                        <img src="<%= publicPostImg[i].image %>" alt="Description of the image">
+                      </div>
+                    </a>
+                    <% } %>
+                      <% } %>
+                        <% } else { %>
+                          <span>불러오기 실패</span>
+                          <% } %>
           </div>
-        </a>
-        <% } %>
-        <% } %>
-        <% } %>
-      </div>
-    </div>
+        </div>
 
 
 
 
-
-    <div class="section">
-      <h2 class="label">자유 게시판</h2>
-      <div class="list-container">
-        <% if(typeof publicPosts !==undefined && publicPosts) { %>
-        <% if(publicPosts.length==0) { %>
-        <span>자유게시판에 작성된 글이 없습니다.</span>
-        <% } else { %>
-        <% for(i=0; i < publicPosts.length; i++) { %>
-        <a class="club-list" href="/publicPostDetail/<%= publicPosts[i].post_id %>">
-          <div class="club-box">
-            <h3 class="list-title container-title">
-              <%= publicPosts[i].title %>
-            </h3>
-            <p class="list-content description">
-              <%= publicPosts[i].content %>
-            </p>
+        <div class="section">
+          <h2 class="label">
+            <%= name.name %>님을 위한<br>오늘의 추천 동아리
+          </h2>
+          <div class="club-container">
+            <% if(typeof recommendClub !==undefined && recommendClub) { %>
+              <% if(recommendClub.length==0) { %>
+                <span>가입한 동아리가 없어요</span>
+                <% } else { %>
+                  <% for(i=0; i < recommendClub.length; i++) { %>
+                    <a class="club-list2" href="/clubDetail/<%= recommendClub[i].club_id %>">
+                      <img src="<%= recommendClub[i].club_img %>" alt="Description of the image">
+                      <div class="club-box">
+                        <p class="list-content description location">
+                          <%= recommendClub[i].location %>
+                        </p>
+                        <h3 class="list-title container-title">
+                          <%= recommendClub[i].club_name %>
+                        </h3>
+                        <p class="list-content description content">
+                          <%= recommendClub[i].description %>
+                        </p>
+                      </div>
+                    </a>
+                    <% } %>
+                      <% } %>
+                        <% } %>
           </div>
-        </a>
-        <% } %>
-        <% } %>
-        <% } else { %>
-        <span>불러오기 실패</span>
-        <% } %>
-        <br />
-      </div>
-    </div>
-    </div>
+        </div>
 
 
-  </main>
-  <footer class="footer">
-    <div class="footer-content">
-      <img src="/icons/hischool_logo.svg" alt="회사 로고" class="footer-logo">
-      <p>(주)Introverted Innovators</p>
-      <p>대표: 시진 예원 구휘 민수 용</p>
-      <p>주소: 서울특별시 강남구 예시동 123-45</p>
-      <p>이메일: Innovators@example.com </p>
-      <p>전화번호: 123-456-7890</p>
-      <p>&copy; (2023)Introverted Innovators. 모든 권리 보유.</p>
-    </div>
-  </footer>
-  <script>
-    function toLink(link) {
-      document.location.href = link;
-    }
 
-    let slides = document.getElementsByClassName("slide");
-    let index = 0;
 
-    // function changeSlide() {
-    //   for (let i = 0; i < slides.length; i++) {
-    //     slides[i].style.display = "none";
-    //   }
-    //   index++;
-    //   if (index > slides.length) { index = 1; }
-    //   slides[index - 1].style.display = "block";
-    //   setTimeout(changeSlide, 3000); // 3초마다 함수를 호출
-    // }
 
-    // changeSlide(); // 함수 실행
-  </script>
+        <div class="section">
+          <h2 class="label">자유 게시판</h2>
+          <div class="list-container">
+            <% if(typeof publicPosts !==undefined && publicPosts) { %>
+              <% if(publicPosts.length==0) { %>
+                <span>자유게시판에 작성된 글이 없습니다.</span>
+                <% } else { %>
+                  <% for(i=0; i < publicPosts.length; i++) { %>
+                    <a class="club-list" href="/publicPostDetail/<%= publicPosts[i].post_id %>">
+                      <div class="club-box">
+                        <h3 class="list-title container-title">
+                          <%= publicPosts[i].title %>
+                        </h3>
+                        <p class="list-content description">
+                          <%= publicPosts[i].content %>
+                        </p>
+                      </div>
+                    </a>
+                    <% } %>
+                      <% } %>
+                        <% } else { %>
+                          <span>불러오기 실패</span>
+                          <% } %>
+                            <br />
+          </div>
+        </div>
+        </div>
+
+
+      </main>
+
+      <footer class="footer">
+        <div class="footer-content">
+          <img src="/icons/hischool_logo.svg" alt="회사 로고" class="footer-logo">
+          <p>(주)Introverted Innovators</p>
+          <p>대표: 시진 예원 구휘 민수 용</p>
+          <p>주소: 서울특별시 강남구 예시동 123-45</p>
+          <p>이메일: Innovators@example.com </p>
+          <p>전화번호: 123-456-7890</p>
+          <p>&copy; (2023)Introverted Innovators. 모든 권리 보유.</p>
+        </div>
+      </footer>
+      <script>
+        function toLink(link) {
+          document.location.href = link;
+        }
+
+        let slides = document.getElementsByClassName("slide");
+        let index = 0;
+
+        // function changeSlide() {
+        //   for (let i = 0; i < slides.length; i++) {
+        //     slides[i].style.display = "none";
+        //   }
+        //   index++;
+        //   if (index > slides.length) { index = 1; }
+        //   slides[index - 1].style.display = "block";
+        //   setTimeout(changeSlide, 3000); // 3초마다 함수를 호출
+        // }
+
+        // changeSlide(); // 함수 실행
+      </script>
 
 
 </body>

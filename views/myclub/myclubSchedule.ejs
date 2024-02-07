@@ -337,66 +337,53 @@
       // club_id 값 찾기
       const club_id = "<%= club_id %>";
 
-      // 일정 폼 제출 핸들러
 
       function addschedule() {
-        document
-          .getElementById("scheduleForm")
-          .addEventListener("submit", function (event) {
-            event.preventDefault();
+        // 중복 이벤트 리스너를 방지하기 위해 이전 리스너 제거
+        const form = document.getElementById("scheduleForm");
+        form.removeEventListener("submit", handleFormSubmit);
+        form.addEventListener("submit", handleFormSubmit);
+      }
 
-            // 모달 폼에서 데이터 추출
-            // date -> 날짜 / time -> 원하는 시간 / title -> 제목 / content -> 내용
-            const date = document.getElementById("modalDate").value;
-            const time = document.getElementById("modalTime").value;
-            const title = document.getElementById("modalTitle").value;
-            const content = document.getElementById("modalContent").value;
-            if (time == '' || title == '' || content == '') {
-              return;
-            }
+      function handleFormSubmit(event) {
+        event.preventDefault();
 
+        // 모달 폼에서 데이터 추출
+        const date = document.getElementById("modalDate").value.trim();
+        const time = document.getElementById("modalTime").value.trim();
+        const title = document.getElementById("modalTitle").value.trim();
+        const content = document.getElementById("modalContent").value.trim();
 
+        // 필수 항목 체크
+        if (!date || !time || !title || !content) {
+          alert("모든 필수 항목을 입력해주세요.");
+          return;
+        }
 
-            // 서버에 POST 요청 전송
-            axios
-              .post(`/myclubSchedule/${club_id}`, {
-                date: date,
-                time: time,
-                title: title,
-                content: content,
-              })
-              .then((res) => {
-                const club_id = res.data.club_id;
-
-                // 일정 추가 성공 시 로직
-
-                //addEventToCalendar(res.data); // 달력에 이벤트 추가
-                closeModal(); // 모달 닫기 함수 실행
-                location.reload();
-              })
-              .catch((err) => {
-                console.error("일정 추가 실패:", err);
-              });
+        // 서버에 POST 요청 전송
+        axios
+          .post(`/myclubSchedule/${club_id}`, {
+            date: date,
+            time: time,
+            title: title,
+            content: content,
+          })
+          .then((res) => {
+            const club_id = res.data.club_id;
+            // 일정 추가 성공 시 로직
+            closeModal(); // 모달 닫기 함수 실행
+            location.reload();
+          })
+          .catch((err) => {
+            console.error("일정 추가 실패:", err);
           });
       }
 
-      // ---------- 달력에 일정 추가 함수
-      // function addEventToCalendar(event) {
-      //   // 이벤트 컨테이너 찾기
-      //   const eventsContainer = document.getElementById('eventsContainer');
-      //   eventsContainer.style.display = 'block'; // 이벤트 컨테이너 보이기
+      addschedule(); // 함수 호출
 
-      //   // '등록된 일정 없음' 메시지 숨기기
-      //   document.getElementById('noEventsMessage').style.display = 'none';
 
-      //   // 새로운 이벤트 요소 생성 및 추가 ->>>> 하단에 일정 날짜, 내용, 시간
-      //   const eventElement = document.createElement('div');
-      //   eventElement.textContent = `${event.date}: ${event.title}: ${event.content}: ${event.time}`;
-      //   eventsContainer.appendChild(eventElement);
 
-      //   // 달력 업데이트
-      //   updateCalendar(currentMonth, currentYear);
-      // }
+
 
       // --------------------- 일정을 추가할수 있는 시작 끝
       // 모달 열기

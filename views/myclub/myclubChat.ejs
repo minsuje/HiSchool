@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="/style.css" />
     <title>하이스쿨 - 동아리 채팅</title>
-    <script
-      src="https://cdn.socket.io/4.7.2/socket.io.min.js"
-      integrity="sha384-mZLF4UVrpi/QTWPA7BjNPEnkIfRFn4ZEO3Qt/HFklTJBj/gBOV8G3HcKn4NfQblz"
-      crossorigin="anonymous"
-    ></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
@@ -188,7 +184,6 @@
 
   <body>
     <%- include('../component/header')%>
-    <!-- <div class="bg"></div> -->
 
     <div class="bg"></div>
     <div class="container" style="background-color: var(--color-primary-100)">
@@ -262,11 +257,8 @@
         myButton.click();
         scrollToBottom();
       };
-      const socket = io.connect(`<%=process.env.AWS_ADDRESS2%>/namespace2`, {
-        path: "/socket.io",
-        transports: ["websocket"],
-        upgrade: false,
-      });
+
+      const socket = io({ transports: ["websocket"], upgrade: false });
       const roomForm = document.querySelector("#room");
       const chatForm = document.querySelector("#chat");
       const msg = document.querySelector("#msg");
@@ -278,8 +270,6 @@
 
       //메세지 띄우기
       socket.on("newMessage", (newClubChat) => {
-        // socket.on("newMessage", (message, nick) => {
-        // console.log("newMessage > ", message, nick);
         console.log("newMessage > ", newClubChat);
 
         const div = document.createElement("div");
@@ -302,7 +292,6 @@
             newClubChat.createdAt
           )}</p>`;
         }
-        // console.log("div >>>>", div);
 
         //채팅 텍스트
         //   p.textContent = `${nick} : ${message}`;
@@ -325,14 +314,8 @@
       ///폼 이벤트
       roomForm.addEventListener("submit", (e) => {
         e.preventDefault();
-        //   const roomName = roomForm.querySelector("#roomName");
         roomName = roomForm.querySelector("#roomName");
         const userName = roomForm.querySelector("#userName");
-        // if (roomName.value === "" || userName.value === "") {
-        //   alert("방이름과 닉네임 적어주세요");
-        //   return;
-        // }
-        console.log(roomName.value, userName.value);
 
         socket.emit("create", roomName.value, userName.value, () => {
           console.log("create");
@@ -346,38 +329,6 @@
         scrollToBottom();
       });
 
-      //이전 메세지 불러오기
-      /*
-    socket.on("preChats", (data) => {
-      // console.log("myclubChat preChats  >  ", data.chats[0]);
-      for (let i = 0; i < data.chats.length; i++) {
-        let div = document.createElement("div");
-        let html = "";
-        console.log("myclubChat preChats  >  ", data.chats[i].from_name);
-        if (data.userName === data.chats[i].from_name) {
-          //내가입력한 텍스트
-          div.classList.add("my-chat");
-          html = `<p class="mychatMsg">${data.chats[i].content}</p>`;
-          if (data.chats[i].createdAt !== data.chats[i + 1].createdAt) {
-            html += `<p class="mychatTime">${data.chats[i].createdAt}</p>`;
-          }
-          div.innerHTML = html;
-          msg.appendChild(div);
-        } else if (data.userName !== data.chats[i].from_name) {
-          div.classList.add("other-chat");
-          if (data.chats[i - 1].from_name !== data.chats[i].from_name) {
-            html += `<p class="otherchatName">${data.chats[i].from_name}</p>`;
-          }
-          html += `<p class="otherchatMsg">${data.chats[i].content}</p>`;
-          if (data.chats[i].createdAt !== data.chats[i + 1].createdAt) {
-            html += `<p class="otherchatTime">${data.chats[i].createdAt}</p>`;
-          }
-          div.innerHTML = html;
-          msg.appendChild(div);
-        }
-      }
-    });
-    */
       chatForm.addEventListener("submit", (e) => {
         e.preventDefault();
         const roomName = roomForm.querySelector("#roomName");

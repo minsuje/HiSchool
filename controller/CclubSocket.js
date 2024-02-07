@@ -1,7 +1,7 @@
 const { Club, Club_chat, User, Sequelize } = require("../models/Index");
 const jwt = require("jsonwebtoken");
 
-exports.connection = async (namespace2, socket) => {
+exports.connection = async (io, socket) => {
   console.log("접속 :", socket.id);
 
   //채팅방 목록 보내기
@@ -23,25 +23,19 @@ exports.connection = async (namespace2, socket) => {
     socket.room = roomName;
     socket.user = userName;
 
-    console.log("CclubSocket create", roomName, userName);
-
     cb();
   });
 
   //================ 위 까지 방만들기 =======================
   socket.on("sendMessage", async (message) => {
-    console.log("CclubSocket sendMessage > ", message);
-
     const newClubChat = await Club_chat.create({
       userid_num: message.userid_num,
       from_name: message.nick,
       content: message.message,
       club_id: message.roomName,
     });
-    // const time = Club_chat
-    console.log("newClubChat", newClubChat);
-    // io.to(socket.room).emit("newMessage", message.message, message.nick, false);
-    namespace2.to(socket.room).emit("newMessage", newClubChat, false);
+
+    io.to(socket.room).emit("newMessage", newClubChat, false);
   });
 
   socket.on("disconnect", () => {

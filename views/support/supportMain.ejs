@@ -107,6 +107,8 @@
 
                <!-- 게시물 목록 -->
                <% for(let i=0; i < getSupport.length; i++) { %>
+
+                  <!-- 비밀글인경우 -->
                   <% if (getSupport[i].secret==='1' ) { %>
                      <div class="list">
                         <span class="secretHashtag">비밀글</span>
@@ -115,6 +117,7 @@
 
                            <div class="listArea" onclick="showDetail('<%= getSupport[i].qa_id %>','<%= getSupport[i].secret %>','<%= getSupport[i].userid_num %>',this,'<%=getSupport[i].qa_content%>')">
                               <div class="list-title">
+                                 <!-- 비밀글+ 작성자 또는 관리자인 경우 -->
                                  <% if (userid_num==getSupport[i].userid_num || userid_num=='1' ) { %>
                                     <%if(getSupport[i].qa_content.length> 20){%>
                                        <%= getSupport[i].qa_content.slice(0,20) %> . . .
@@ -133,20 +136,18 @@
                               </div>
                            </div>
 
-
+                           <!-- 작성자 본인에게만 삭제 버튼 활성화 -->
                            <div class="buttonArea">
                               <% if (getSupport[i].userid_num==userid_num) { %>
-                                 <button onclick="deleteSupport('<%=getSupport[i].qa_id%>')"<img width="24" height="24" src="https://img.icons8.com/fluency/48/filled-trash.png" alt="filled-trash"/>
+                                 <button onclick="deleteSupport('<%=getSupport[i].qa_id%>')"><img width="24" height="24" src="https://img.icons8.com/fluency/48/filled-trash.png" alt="filled-trash"/>
                                  </button>
                                  <% } %>
                            </div>
-
                         </div>
 
 
-
+                        <!-- 답변 등록 영역 (관리자로 로그인시에만 활성화) -->
                         <div id="<%=getSupport[i].qa_id%>" style="display: none;" class="admin-zone">
-
                            <% if (userid_num=='1' ) { %>
                               <div class="commentList-box" id="commentList">
                                  <div id="<%=getSupport[i].qa_id%>">
@@ -155,15 +156,13 @@
                                           placeholder="답변을 입력하세요">
                                        <button class="btn-sm btn-primary submit"
                                           onclick="patch('<%=getSupport[i].qa_id%>')">등록 </button>
-
                                     </label>
                                  </div>
-
                               </div>
-
                               <% } %>
 
                                  <br>
+                                 <!-- 등록된 답변 영역 -->
                                  <% if (getSupport[i].qa_comment) { %>
                                     <div class="list-content">
                                        <%= getSupport[i].qa_comment %>
@@ -171,17 +170,15 @@
                                     <% }else{ %>
                                        <div class="list-content">아직 답변이 등록되지 않았습니다.</div>
                                        <%}%>
-
                         </div>
                      </div>
                      </div>
 
 
-
+                     <!-- 비밀글이 아닌 경우 -->
                      <% }else{ %>
                         <div class="list">
                            <div class="flex">
-
                               <div class="listArea">
                                  <div class="list-title"
                                     onclick="showDetail('<%= getSupport[i].qa_id %>','<%= getSupport[i].secret %>','<%= getSupport[i].userid_num %>',this,'<%=getSupport[i].qa_content%>')">
@@ -195,23 +192,18 @@
                                     <%= userNickname[i] %>
                                  </div>
                               </div>
-
-
+                              <!-- 삭제 버튼: 작성자 본인에게만 활성화 -->
                               <div class="buttonArea">
                                  <% if (getSupport[i].userid_num==userid_num) { %>
                                     <button onclick="deleteSupport('<%=getSupport[i].qa_id%>')"><img width="24" height="24" src="https://img.icons8.com/fluency/48/filled-trash.png" alt="filled-trash"/>
                                     </button>
                                     <% } %>
                               </div>
-
                            </div>
 
 
-
-
+                           <!-- 답변 등록 영역 (관리자로 로그인시에만 활성화) -->
                            <div id="<%=getSupport[i].qa_id%>" style="display: none;" class="admin-zone">
-
-
                               <% if (userid_num=='1' ) { %>
                                  <div class="commentList-box" id="commentList">
                                     <div id="<%=getSupport[i].qa_id%>">
@@ -220,14 +212,12 @@
                                              placeholder="답변을 입력하세요">
                                           <button class="btn-sm btn-primary submit"
                                              onclick="patch('<%=getSupport[i].qa_id%>')">등록 </button>
-
                                        </label>
                                     </div>
-
                                  </div>
-
                                  <% } %>
                                     <br>
+                                    <!-- 등록된 답변 영역 -->
                                     <% if (getSupport[i].qa_comment) { %>
                                        <div class="list-content">
                                           <%= getSupport[i].qa_comment %>
@@ -235,21 +225,13 @@
                                        <% }else{ %>
                                           <div class="list-content">아직 답변이 등록되지 않았습니다.</div>
                                           <% } %>
-
-
-
-
-
-
                            </div>
                         </div>
                         </div>
                         <% } %>
-
                            <% } %>
                               <% } %>
-
-
+                              <!-- 고객센터 글 추가 -->
                                  <button class="btn-create" type="button" onclick="createSupport()"><i
                                        data-feather="plus"></i></button>
                                  <%- include('../component/upbtn')%>
@@ -258,23 +240,20 @@
 
 
 
-
+         // 고객센터 글 클릭시 세부정보 확인
          function showDetail(qa_id, secret, userid_num, clickedDiv, content) {
-            console.log(content.slice(0, 20));
             if (document.getElementById(`${qa_id}`).style.display == 'none') {
+               // 비밀글인 경우 - 작성자는 글 전체 내용 확인 가능 / 작성자 아닐 경우 alert 출력
                if (secret === '1') {
                   if ('<%=userid_num%>' === userid_num || '<%=userid_num%>' == '1') {
-
                      document.getElementById(`${qa_id}`).style.display = 'block';
                      clickedDiv.innerText = content;
-
-
-
                   } else {
                      alert('비밀글은 작성자만 볼 수 있습니다!');
                      return;
                   }
                }
+               // 비밀글 아닐 경우 모두 확인 가능
                else {
                   document.getElementById(`${qa_id}`).style.display = 'block';
                   clickedDiv.innerText = content;
@@ -300,15 +279,13 @@
 
                }
             }
-
-
          }
-
-
+         // 추가버튼 클릭시 글 작성 화면으로 이동
          function createSupport() {
             window.location.href = '/supportNewPost';
          }
 
+         // 관리자 답변 등록
          async function patch(qa_id) {
             const Div = document.getElementById(`${qa_id}`);
             const content = Div.querySelector('.support').value;
@@ -320,21 +297,14 @@
                   data: {
                      qa_comment: content,
                   }
-
                });
-
                alert('등록되었습니다');
                commentDiv.innerText = content;
                Div.querySelector('.support').value = '';
-
-
-
             } catch (error) {
                console.log("support에서 답글 등록 오류 > ", error);
             };
          }
-
-
 
          async function deleteSupport(qa_id) {
             if (confirm('정말 삭제하시겠습니까?')) {
@@ -342,23 +312,16 @@
                   const res = await axios({
                      method: "DELETE",
                      url: `/supportMain/${qa_id}`,
-
                   });
-
                   alert('삭제되었습니다');
                   window.location.href = '/supportMain';
-
-
                } catch (error) {
                   console.log("support에서 게시글 등록 오류 > ", error);
                };
             } else {
                return;
             }
-
          }
-
-
       </script>
       <script>feather.replace()</script>
 </body>
