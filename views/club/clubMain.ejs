@@ -117,18 +117,18 @@
 
 
 
-      <button class="btn-create" type="button" onclick="createClub()"><i data-feather="plus"></i></button>
+      <button id="createClub" class="btn-create" type="button" onclick="createClub()"><i data-feather="plus"></i></button>
       <%- include('../component/upbtn')%>
-
-
         </div>
     </main>
 
 
-
-
-
     <script>
+      document.addEventListener('DOMContentLoaded', function () {
+      if('<%=findClubs.length%>'>=3){
+        document.getElementById('createClub').disabled='true'
+      }
+    })
 
       const selectBox = document.getElementById('selectedLocation');
       const mainDiv = document.getElementById('searchResult');

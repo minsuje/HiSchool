@@ -439,7 +439,7 @@
         // 한글 15자 이하, 영어 30자 이하, 특수문자 제외
 
 
-        if ((!(/^[a-zA-Z]+$/.test(userid))) || userid.length > 20) {
+        if ((!(/^[a-zA-Z0-9]+$/.test(userid))) || userid.length > 20) {
           document.getElementById('userid').style.borderColor = 'red';
           document.getElementById('userid-error').innerText = '영문 20자 이내로 입력해주세요';
           return;

@@ -3,15 +3,18 @@ const controllerPublic = require("../controller/Cpublic");
 const controllerClub = require("../controller/Cclub");
 const controllerSupport = require("../controller/Csupport");
 const controllerUser = require("../controller/Cuser");
-const controllerCsocket = require("../controller/Csocket");
 const router = express.Router();
-const { isNotLoggedIn, isLoggedIn, preventIndex } = require("./../middleware/loginCheck");
+const {
+  isNotLoggedIn,
+  isLoggedIn,
+  preventIndex,
+} = require("./../middleware/loginCheck");
 
 router.post("/s3upload", controllerUser.s3upload);
 
 router.post("/s3MultipleSignedUrl", controllerUser.s3MultipleSignedUrl);
 
-router.post("/s3Delete/:club_id/:post_id", controllerUser.s3Delete)
+router.post("/s3Delete/:club_id/:post_id", controllerUser.s3Delete);
 
 router.get("/", preventIndex, (req, res) => {
   res.render("index");
@@ -264,14 +267,11 @@ router.get("/mypageMain", isLoggedIn, controllerPublic.getMyPage);
 // DELETE /mypageMain 유저 탈퇴
 router.delete("/mypageMain", isLoggedIn, controllerPublic.deleteMyID);
 
-
 // // PATCH /mypageMain 프로필 사진 수정
 // router.patch("/mypageMain/profileImg", isLoggedIn, controllerPublic.updateMyPageProfileImg);
 
-
 // PATCH /mypageMain //마이페이지 수정
 router.patch("/mypageMain", isLoggedIn, controllerPublic.updateMyPageMain);
-
 
 // GET /mypageProfile/:nickname 마이페이지 정보 가져오기 ver.닉네임
 router.get(
@@ -312,10 +312,18 @@ router.post(
 );
 
 // GET /publicEditPost/:post_id
-router.get("/publicEditPost/:post_id", isLoggedIn, controllerPublic.getPublicEditPost);
+router.get(
+  "/publicEditPost/:post_id",
+  isLoggedIn,
+  controllerPublic.getPublicEditPost
+);
 
 // PATCH /publicEditPost/:post_id
-router.patch("/publicEditPost/:post_id", isLoggedIn, controllerPublic.patchPublicEditPost);
+router.patch(
+  "/publicEditPost/:post_id",
+  isLoggedIn,
+  controllerPublic.patchPublicEditPost
+);
 
 // PATCH /publicPostDetail/:post_id 게시글 수정
 // router.patch(
@@ -353,7 +361,11 @@ router.delete(
 );
 
 // DELETE /publicPostDetail/:post_id/:comment_id/:userid_num 게시글 댓글 좋아요 삭제
-router.delete("/publicPostDetail/:post_id/:comment_id/:userid_num", isLoggedIn, controllerPublic.deletePostCommentLike);
+router.delete(
+  "/publicPostDetail/:post_id/:comment_id/:userid_num",
+  isLoggedIn,
+  controllerPublic.deletePostCommentLike
+);
 
 // DM
 // GET /dm dm 가져오기
@@ -394,10 +406,18 @@ router.get("/supportNewPost", isLoggedIn, controllerSupport.getNewSupport);
 router.post("/supportNewPost", isLoggedIn, controllerSupport.postSupport);
 
 // PATCH /supportMain/:qa_id 고객 문의 답글
-router.patch("/supportMain/:qa_id", isLoggedIn, controllerSupport.postSupportComment);
+router.patch(
+  "/supportMain/:qa_id",
+  isLoggedIn,
+  controllerSupport.postSupportComment
+);
 
 // DELETE /supportMain/:qa_id 문의글 삭제
-router.delete("/supportMain/:qa_id", isLoggedIn, controllerSupport.deleteSupport);
+router.delete(
+  "/supportMain/:qa_id",
+  isLoggedIn,
+  controllerSupport.deleteSupport
+);
 
 // GET /clubChat
 // router.get("/", controllerClub.clubChat);
@@ -405,16 +425,19 @@ router.delete("/supportMain/:qa_id", isLoggedIn, controllerSupport.deleteSupport
 // GET /home 홈 화면 로드(전체 동아리, 유저가 가입되어 있는 동아이 정보)
 router.get("/home", isLoggedIn, controllerPublic.home);
 
-
 // socket
 
 // GET /chatList
-router.get('/chatList', isLoggedIn, controllerPublic.getChatList);
+router.get("/chatList", isLoggedIn, controllerPublic.getChatList);
 
 // Delete /chatList
-router.delete('/chatList/:room', isLoggedIn, controllerPublic.deleteChat);
+router.delete("/chatList/:room", isLoggedIn, controllerPublic.deleteChat);
 
 // Delete /mypageProfile/:nickname 회원 강퇴
-router.delete('/mypageProfile/:nickname', isLoggedIn, controllerPublic.deleteBadUser);
+router.delete(
+  "/mypageProfile/:nickname",
+  isLoggedIn,
+  controllerPublic.deleteBadUser
+);
 
 module.exports = router;

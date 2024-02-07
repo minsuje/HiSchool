@@ -1049,27 +1049,36 @@ exports.deleteMyID = async (req, res) => {
       },
       attributes: ["profile_img"],
     });
-
+    console.log(">>>>>>>>>>콘솔 확인");
     console.log("Cpublic 969 profileImg", profileImg.profile_img);
 
     if (profileImg.profile_img !== "") {
       const isDeleted = await deleteFile(profileImg.profile_img);
-    }
 
-    if (isDeleted) {
+      if (isDeleted) {
+        const destroyMyID = await User.destroy({
+          where: {
+            userid_num: userid_num,
+          },
+        });
+
+        if (destroyMyID) {
+          res.send({ isDeleted: true });
+        } else {
+          res.send({ isDeleted: false });
+        }
+      }
+    } else {
       const destroyMyID = await User.destroy({
         where: {
           userid_num: userid_num,
         },
       });
-
       if (destroyMyID) {
         res.send({ isDeleted: true });
       } else {
         res.send({ isDeleted: false });
       }
-    } else {
-      console.error("S3 이미지 삭제 실패");
     }
   } catch (err) {
     console.error(err);
@@ -1260,29 +1269,24 @@ exports.home = async (req, res) => {
     const publicPostImg = await Public_post.findAll({
       order: [Sequelize.literal("rand()")],
       attributes: ["image", "post_id"],
-      where: Sequelize.literal('JSON_LENGTH(image) > 0'),
+      where: Sequelize.literal("JSON_LENGTH(image) > 0"),
       limit: 3,
     });
 
-
-
     let publicPostImagesSend = [];
 
-    for(let i = 0; i < publicPostImg.length; i++) {
+    for (let i = 0; i < publicPostImg.length; i++) {
       // 각 image에 대해 getSignedFile 함수를 적용
-      console.log('public post >>>>>>>', publicPostImg[i].image[0]);
+      console.log("public post >>>>>>>", publicPostImg[i].image[0]);
       let signedImage = await getSignedFile(publicPostImg[i].image[0]);
-      console.log('signedImage >>>>>>', signedImage);
-    
+      console.log("signedImage >>>>>>", signedImage);
+
       // 결과를 새 객체에 저장하여 publicPostImagesSend 배열에 추가
       publicPostImagesSend.push({
         post_id: publicPostImg[i].post_id,
-        image: signedImage
+        image: signedImage,
       });
     }
-
-
-
 
     const recommendClub = await Club.findAll({
       order: [Sequelize.literal("rand()")],

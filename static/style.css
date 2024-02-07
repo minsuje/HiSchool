@@ -349,6 +349,10 @@ img {
   background-color: var(--color-primary-600);
   cursor: pointer;
 }
+.btn-create[disabled] {
+  background-color: var(--color-gray-300);
+  cursor: pointer;
+}
 
 .btn-warning {
   background-color: var(--color-red-500);
