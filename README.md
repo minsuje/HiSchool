@@ -58,7 +58,7 @@
 📍 'HiSchool' 게스트 계정 정보
 <table>
   <tr><td>아이디</td><td>hongu90</td></tr>
-  <tr><td>비밀번호</td><td>qwer1234!</td></tr>
+  <tr><td>비밀번호</td><td>12341234</td></tr>
 </table>
 서비스를 구경하고 싶으시다면 상단의 계정 정보로 로그인 후 사용하실 수 있습니다.
 
