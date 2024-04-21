@@ -3,8 +3,8 @@ const { ListBucketsCommand, S3Client } = require("@aws-sdk/client-s3");
 
 const client = new S3Client({
   credentials: {
-    accessKeyId: process.env.AWS_S3_KEY_ID,
-    secretAccessKey: process.env.AWS_S3_ACCESS_KEY,
+    accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_S3_KEY_ID,
   },
   region: process.env.AWS_S3_REGION,
   // bucket: process.env.AWS_S3_BUCKET,
@@ -21,7 +21,7 @@ const s3bucketList = async () => {
     //   }:`
     // );
     // console.log(`${Buckets.map((b) => ` • ${b.Name}`).join("\n")}`);
-    return (`${Buckets.map((b) => ` • ${b.Name}`).join("\n")}`)
+    return `${Buckets.map((b) => ` • ${b.Name}`).join("\n")}`;
   } catch (err) {
     console.error(err);
   }
