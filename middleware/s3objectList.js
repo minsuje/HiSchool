@@ -1,12 +1,11 @@
 const dotenv = require("dotenv").config();
-const { S3Client, ListObjectsV2Command } = require('@aws-sdk/client-s3')
-
+const { S3Client, ListObjectsV2Command } = require("@aws-sdk/client-s3");
 
 // const client = new S3Client({});
 const client = new S3Client({
   credentials: {
-    accessKeyId: process.env.AWS_S3_KEY_ID,
-    secretAccessKey: process.env.AWS_S3_ACCESS_KEY,
+    accessKeyId: process.env.AWS_S3_ACCESS_KEY,
+    secretAccessKey: process.env.AWS_S3_KEY_ID,
     // bucket: process.env.AWS_S3_BUCKET,
   },
   region: process.env.AWS_S3_REGION,
