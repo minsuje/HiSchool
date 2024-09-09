@@ -34,7 +34,7 @@
 | --- | --- |
 | 진행 기간 | 2023. 12. 14 ~ 2023. 12. 30 (17일) |
 | 팀명 / 팀원 | II / 5명 (풀스택 1명, 프론트 2명, 백 2명) |
-| github 주소 | https://github.com/minsuje/starwrite |
+| github 주소 | https://github.com/minsuje/HiSchool |
 | 배포 주소 | http://13.124.202.228/ |
 
 <br><br><br>
